@@ -1,21 +1,44 @@
 import React from "react"
-import { Link } from "gatsby"
+import Header from "../components/Header"
+import Intro from "../components/Intro"
+import Description from "../components/Description"
+import Form from "../components/Form"
+import styled from "styled-components"
+import img from "../images/backgroundImg.jpg"
+import GlobalStyle from "../components/globalStyles"
 
-import Layout from "../components/layout"
-import Image from "../components/image"
-import SEO from "../components/seo"
+const Background = styled.div`
+  background-image: url(${img});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  width: 100vw;
+  height: fit-content(100%);
+  margin: 0;
+  position: absolute;
+  z-index: 1;
+`
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
+const Letter = styled.div`
+  background: snow;
+  box-shadow: 2px 2px 10px #888888;
+  margin: 7% 5%;
+  z-index: 1000;
+  padding: 4em;
+`
+
+const App = () => (
+  <>
+    <GlobalStyle />
+    <Background>
+      <Letter>
+        <Header />
+        <Intro />
+        <Description />
+        <Form />
+      </Letter>
+    </Background>
+  </>
 )
 
-export default IndexPage
+export default App

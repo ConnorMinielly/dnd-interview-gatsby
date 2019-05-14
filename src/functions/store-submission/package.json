@@ -1,0 +1,16 @@
+{
+  "name": "store-submission",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./store-submission.js"
+  },
+  "devDependencies": {
+    "dotenv": "^8.0.0",
+    "nodemon": "^1.19.0"
+  },
+  "dependencies": {
+    "mongoose": "^5.5.8"
+  }
+}
