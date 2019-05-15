@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
 
 const creds = {
   user: process.env.MONGO_USER,
@@ -7,8 +6,6 @@ const creds = {
 };
 
 module.exports = mongoose.connect(
-  `mongodb+srv://${creds.user}:${
-    creds.pass
-  }@submissions-7ntw0.mongodb.net/test?retryWrites=true`,
-  { useNewUrlParser: true },
+  `mongodb+srv://${creds.user}:${creds.pass}@submissions-7ntw0.mongodb.net/`,
+  { useNewUrlParser: true, dbName: 'submissions' },
 );
