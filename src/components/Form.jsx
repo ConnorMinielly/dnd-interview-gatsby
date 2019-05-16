@@ -58,6 +58,7 @@ const Submit = async (data, setSubmitted, setMessage) => {
     }).then(res => res.json());
     window.scrollTo(0, 0);
     data.clear();
+    setMessage("We'll be in touch soon adventurer.");
     setSubmitted(true);
     console.log(response.message);
   } catch (err) {
