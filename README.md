@@ -5,4 +5,4 @@ It's that time of year again. The time of year where you start to see unfamiliar
 The Letter of Acquisition:
 https://letter-of-acquisition.netlify.com/
 
-DM's Note: Let me know when you've submitted this as i didn't build in and email notification cause... i didn't wanna. Answer as much or as little as you like. The only required fields are the first three (name, class, race/description). If you have any issues message me, I recommend writing your answers in a different spot that you can save to ensure you don't loose them to my shoddy programming.
+DM's Note: Let me know when you've submitted this as i didn't build in and email notification cause... i didn't wanna. Answer as much or as little as you like. The only required fields are the first three (name, class, race/description). If you have any issues message me, I recommend writing your answers in a different spot that you can save to ensure you don't loose them to my shoddy programming. Also this is not mobile friendly! Sorry!
