@@ -1,30 +1,30 @@
 module.exports = {
   siteMetadata: {
-    title: `DnD Interview`,
-    description: `Get Info from my players!`,
-    author: `Connor Minielly`,
+    title: 'DnD Interview',
+    description: 'Get Info from my players!',
+    author: 'Connor Minielly',
   },
   plugins: [
-    `gatsby-plugin-react-helmet`,
+    'gatsby-plugin-react-helmet',
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: 'gatsby-source-filesystem',
       options: {
-        name: `images`,
+        name: 'images',
         path: `${__dirname}/src/images`,
       },
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-sharp',
     {
-      resolve: `gatsby-plugin-manifest`,
+      resolve: 'gatsby-plugin-manifest',
       options: {
-        name: `dnd-interview`,
-        short_name: `dnd`,
-        start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
-        display: `minimal-ui`,
+        name: 'dnd-interview',
+        short_name: 'dnd',
+        start_url: '/',
+        background_color: '#663399',
+        theme_color: '#663399',
+        display: 'minimal-ui',
       },
     },
   ],
-}
+};
