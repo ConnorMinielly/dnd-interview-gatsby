@@ -35,7 +35,7 @@
   "scripts": {
     "build": "run-p build:**",
     "build:gatsby": "gatsby build",
-    "build:func": "cd ./src/functions/store-submission/ && yarn install && zip -urq ../store-submission.zip *",
+    "build:func": "cd ./src/functions/store-submission/ && yarn install",
     "develop": "gatsby develop",
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
