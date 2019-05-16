@@ -16,19 +16,15 @@ const SubmissionsSchema = new mongoose.Schema({
   },
   specialties: {
     type: String,
-    required: true,
   },
   role: {
     type: String,
-    required: true,
   },
   achievement: {
     type: String,
-    required: true,
   },
   scenario: {
     type: String,
-    required: true,
   },
 });
 
