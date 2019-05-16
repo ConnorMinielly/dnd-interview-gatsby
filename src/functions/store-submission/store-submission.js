@@ -18,6 +18,7 @@ exports.handler = async (event, context, callback) => {
     console.log(err);
     return {
       statusCode: 500,
+      error: JSON.stringify(err),
       body: JSON.stringify({
         message: 'Naht Fuckin workin',
       }),

@@ -48,17 +48,18 @@ const EditorNote = styled.span`
 const Submit = async (data, setSubmitted, setMessage) => {
   const { values } = data;
   try {
-    const { res } = await fetch('/.netlify/functions/store-submission', {
+    const response = await fetch('/.netlify/functions/store-submission', {
       method: 'post',
       headers: {
+        'Access-Control-Allow-Origin': '*',
         'content-type': 'application/json',
       },
       body: JSON.stringify(values),
-    });
+    }).then(res => res.json());
     window.scrollTo(0, 0);
     data.clear();
     setSubmitted(true);
-    console.log(res.json().message);
+    console.log(response.message);
   } catch (err) {
     console.log('Submission failed');
     console.log(err);
