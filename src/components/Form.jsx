@@ -18,20 +18,25 @@ const StyledForm = styled.form`
     margin-top: 0.25em;
     margin-bottom: 0.25em;
     min-height: 2em;
+    border: 1px solid black;
   }
   select {
     font-size: 1em;
+    background: white;
   }
   textarea {
     font-size: 1em;
     min-height: 7em;
   }
   input[type="submit"] {
-    font-size: 1em;
+    font-size: 1.2em;
+    background: lavender;
+    border: none;
   }
   label {
     display: flex;
     flex-direction: column;
+    border: none;
   }
 `;
 
@@ -40,7 +45,7 @@ const EditorNote = styled.span`
   color: #ff7f50;
 `;
 
-const Submit = async (data, setSubmitted) => {
+const Submit = async (data, setSubmitted, setMessage) => {
   const { values } = data;
   try {
     const { res } = await fetch('/.netlify/functions/store-submission', {
@@ -57,27 +62,30 @@ const Submit = async (data, setSubmitted) => {
   } catch (err) {
     console.log('Submission failed');
     console.log(err);
+    window.scrollTo(0, 0);
+    setMessage(
+      'Woops! Something went wrong! Let Your DM know and save your answers. Click anywhere to close this message.',
+    );
+    setSubmitted(true);
   }
 };
 
 const Form = () => {
   const [data, { text, select, textarea }] = useFormState();
   const [submitted, setSubmitted] = useState(false);
+  const [message, setMessage] = useState("We'll be in touch soon adventurer.");
   const props = useSpring({
     to: { opacity: 1 },
     from: { opacity: 0 },
   });
 
-  useEffect(() => {
-    // console.log(data.values);
-  });
   return (
     <>
       {!submitted ? (
         <StyledForm
           onSubmit={(e) => {
             e.preventDefault();
-            Submit(data, setSubmitted);
+            Submit(data, setSubmitted, setMessage);
           }}
         >
           <h2>The Acquisition Inquisition</h2>
@@ -90,8 +98,20 @@ const Form = () => {
           <label htmlFor="class">
             What is your martial classification?
             <select name="class" {...select('class')}>
-              <option>Bard</option>
               <option>Barbarian</option>
+              <option>Bard</option>
+              <option>Blood Hunter</option>
+              <option>Cleric</option>
+              <option>Druid</option>
+              <option>Fighter</option>
+              <option>Monk</option>
+              <option>Paladin</option>
+              <option>Ranger</option>
+              <option>Rouge</option>
+              <option>Sorcerer</option>
+              <option>Warlock</option>
+              <option>Wizard</option>
+              <option>Artificer</option>
             </select>
           </label>
 
@@ -123,11 +143,12 @@ const Form = () => {
             future?
             <textarea name="achievement" {...textarea('achievement')} />
           </label>
+
           <label htmlFor="scenario">
             <strong>Scenario:</strong> Your team and you are sent to retrieve the Corpse Cross of a
-            tribe of Froglurker Cannibals, to "preserve" the culture of this beautiful, secluded
-            peoples. This has the handy side benefit of stopping them from summoning the Bone
-            Tornado. As you make an expeditious retreat through the forest from a group of well
+            tribe of Froglurker Cannibals, to &quot;preserve&quot; the culture of this beautiful,
+            secluded peoples. This has the handy side benefit of stopping them from summoning the
+            Bone Tornado. As you make an expeditious retreat through the forest from a group of well
             meaning Froglurkers (who have misunderstood the beneficial nature of your important work
             and would now like to incorporate your entrails in some charming cultural pieces), your
             companion who is carrying the Corpse Cross falls. What do you do?
@@ -139,7 +160,7 @@ const Form = () => {
         <Portal>
           <Overlay onClick={() => setSubmitted(false)}>
             <SubmittedText style={props}>Job Submitted</SubmittedText>
-            <SubmittedSubText>We'll be in touch soon adventurer.</SubmittedSubText>
+            <SubmittedSubText>{message}</SubmittedSubText>
           </Overlay>
         </Portal>
       )}
