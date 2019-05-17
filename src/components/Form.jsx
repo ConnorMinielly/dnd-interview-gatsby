@@ -47,33 +47,38 @@ const EditorNote = styled.span`
 
 const Submit = async (data, setSubmitted, setMessage) => {
   const { values } = data;
-  try {
-    const response = await fetch('/.netlify/functions/store-submission', {
-      method: 'post',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify(values),
-    }).then(res => res.json());
-    window.scrollTo(0, 0);
-    data.clear();
-    setMessage("We'll be in touch soon adventurer.");
-    setSubmitted(true);
-    console.log(response.message);
-  } catch (err) {
-    console.log('Submission failed');
-    console.log(err);
-    window.scrollTo(0, 0);
-    setMessage(
-      'Woops! Something went wrong! Let Your DM know and save your answers. Click anywhere to close this message.',
-    );
-    setSubmitted(true);
-  }
+  fetch('/.netlify/functions/store-submission', {
+    method: 'post',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(values),
+  })
+    .then(res => res.json())
+    .then((res) => {
+      if (res.success) {
+        window.scrollTo(0, 0);
+        data.clear();
+        setMessage(res.message);
+        setSubmitted(true);
+      } else {
+        window.scrollTo(0, 0);
+        setMessage(
+          `Woops! Something went wrong! Let Your DM know and save your answers. Click anywhere to close this message.
+      \n\nError: ${res.message}`,
+        );
+        setSubmitted(true);
+      }
+    })
+    .catch((err) => {
+      console.log('Submission failed');
+      console.log(err);
+    });
 };
 
 const Form = () => {
-  const [data, { text, select, textarea }] = useFormState();
+  const [data, { text, select, textarea }] = useFormState({ class: 'Barbarian' });
   const [submitted, setSubmitted] = useState(false);
   const [message, setMessage] = useState("We'll be in touch soon adventurer.");
   const props = useSpring({
@@ -99,7 +104,7 @@ const Form = () => {
 
           <label htmlFor="class">
             What is your martial classification?
-            <select name="class" {...select('class')}>
+            <select name="class" value="Barbarian" {...select('class')}>
               <option>Barbarian</option>
               <option>Bard</option>
               <option>Blood Hunter</option>
@@ -161,7 +166,7 @@ const Form = () => {
       ) : (
         <Portal>
           <Overlay onClick={() => setSubmitted(false)}>
-            <SubmittedText style={props}>Job Submitted</SubmittedText>
+            <SubmittedText style={props}>Letter Submitted</SubmittedText>
             <SubmittedSubText>{message}</SubmittedSubText>
           </Overlay>
         </Portal>
