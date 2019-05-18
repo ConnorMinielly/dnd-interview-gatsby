@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const SubmissionsSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: [true, 'We need a name, fiend.'],
     unique: true,
   },
   class: {
@@ -12,7 +12,7 @@ const SubmissionsSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
+    required: [true, 'We require at least a basic description.'],
   },
   specialties: {
     type: String,

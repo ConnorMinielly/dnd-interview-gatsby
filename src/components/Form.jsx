@@ -45,42 +45,35 @@ const EditorNote = styled.span`
   color: #ff7f50;
 `;
 
-const Submit = async (data, setSubmitted, setMessage) => {
+const Submit = async (data, setOverlay, setMessage) => {
   const { values } = data;
-  fetch('/.netlify/functions/store-submission', {
+  const response = await fetch('/.netlify/functions/store-submission', {
     method: 'post',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'content-type': 'application/json',
     },
     body: JSON.stringify(values),
-  })
-    .then(res => res.json())
-    .then((res) => {
-      if (res.success) {
-        window.scrollTo(0, 0);
-        data.clear();
-        setMessage(res.message);
-        setSubmitted(true);
-      } else {
-        window.scrollTo(0, 0);
-        setMessage(
-          `Woops! Something went wrong! Let Your DM know and save your answers. Click anywhere to close this message.
-      \n\nError: ${res.message}`,
-        );
-        setSubmitted(true);
-      }
-    })
-    .catch((err) => {
-      console.log('Submission failed');
-      console.log(err);
-    });
+  });
+  const res = await response.json();
+  window.scrollTo(0, 0);
+  if (res.success === true) {
+    data.clear();
+  }
+  setMessage({
+    message: res.message,
+    title: res.title,
+  });
+  setOverlay(true);
 };
 
 const Form = () => {
   const [data, { text, select, textarea }] = useFormState({ class: 'Barbarian' });
-  const [submitted, setSubmitted] = useState(false);
-  const [message, setMessage] = useState("We'll be in touch soon adventurer.");
+  const [hasOverlay, setOverlay] = useState(false);
+  const [message, setMessage] = useState({
+    message: 'Give us a sec to ensorcell the envelope.',
+    title: 'Prepping Letter...',
+  });
   const props = useSpring({
     to: { opacity: 1 },
     from: { opacity: 0 },
@@ -88,11 +81,11 @@ const Form = () => {
 
   return (
     <>
-      {!submitted ? (
+      {!hasOverlay ? (
         <StyledForm
           onSubmit={(e) => {
             e.preventDefault();
-            Submit(data, setSubmitted, setMessage);
+            Submit(data, setOverlay, setMessage);
           }}
         >
           <h2>The Acquisition Inquisition</h2>
@@ -165,9 +158,17 @@ const Form = () => {
         </StyledForm>
       ) : (
         <Portal>
-          <Overlay onClick={() => setSubmitted(false)}>
-            <SubmittedText style={props}>Letter Submitted</SubmittedText>
-            <SubmittedSubText>{message}</SubmittedSubText>
+          <Overlay
+            onClick={() => {
+              setOverlay(false);
+              setMessage({
+                message: 'Give us a sec to ensorcell the envelope.',
+                title: 'Prepping Letter...',
+              });
+            }}
+          >
+            <SubmittedText style={props}>{message.title}</SubmittedText>
+            <SubmittedSubText>{message.message}</SubmittedSubText>
           </Overlay>
         </Portal>
       )}
