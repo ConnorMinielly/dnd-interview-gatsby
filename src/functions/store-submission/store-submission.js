@@ -1,11 +1,25 @@
 require('./mongo-db');
+
+const Airtable = require('airtable');
+const { promisify } = require('util');
 const Submissions = require('./submission-model');
 
+const table = new Airtable({ apiKey: process.env.AIRTABLE_KEY }).base('appYlBigh8JLPiFF1');
+const createPlayer = promisify(table('Players').create.bind(table));
 // event, context, callback
 exports.handler = async (event) => {
-  const data = JSON.parse(event.body);
+  const player = JSON.parse(event.body);
   try {
-    await Submissions.create({ ...data });
+    await Submissions.create({ ...player });
+    await createPlayer({
+      Description: player.description,
+      Name: player.name,
+      Class: player.class,
+      Specialties: player.specialties,
+      Role: player.role,
+      Achievement: player.achievement,
+      Scenario: player.scenario,
+    });
     console.log('Submission executed!');
     return {
       statusCode: 200,
